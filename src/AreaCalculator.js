@@ -11,15 +11,21 @@ class AreaCalculator {
 
     let area = 0;
     for (let shape of svg.children) {
-      //get needed argumetns from the attributes of the svg tag
-      let argValues = [];
-      shapeMap[shape.tagName].args.forEach((arg) => {
-        argValues.push(shape.getAttribute(arg));
-      })
-      
-      //create new shape object and add it's area to area variable
-      const shapeObject = new shapeMap[shape.tagName].type(...argValues);
-      area += shapeObject.area;
+      const shapeObject = shapeMap[shape.tagName].type;
+
+      if(shapeObject) {
+        //get needed argumetns from the attributes of the svg tag
+        let argValues = [];
+        shapeMap[shape.tagName].args.forEach((arg) => {
+          argValues.push(shape.getAttribute(arg));
+        })
+        
+        //create new shape object and add it's area to area variable
+        const newShape = new shapeObject(...argValues);
+        area += newShape.area;
+      } else {
+        throw new Error("Type not implemented: " + shape.tagName);
+      }
      }
     return Math.round(area);
   }
