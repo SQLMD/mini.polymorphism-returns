@@ -1,33 +1,26 @@
-//const classMap = {circle: Circle, ellipse: Ellipse, rectangle: Rectangle}
-
 // eslint-disable-next-line no-unused-var
 class AreaCalculator {
   // Returns the total area of all shapes rounded to the nearest whole number
   calculateArea(svg) {
+    //map tagNames to Object types and argument list to make generic to obejcts
+    const shapeMap = {
+      "circle": {type: Circle, args: ["r"]},
+      "ellipse": {type: Ellipse, args: ["rx","ry"]},
+      "rect": {type: Rectangle, args: ["width","height"]}
+    }
+
     let area = 0;
     for (let shape of svg.children) {
-      switch (shape.tagName) {
-        case "circle": {
-          let radius = shape.getAttribute("r");
-          area += new Circle(radius).area;
-          break;
-        }
-        case "rect": {
-          let width = shape.getAttribute("width");
-          let height = shape.getAttribute("height");
-          area += new Rectangle(width, height).area;
-          break;
-        }
-        case "ellipse": {
-          let r1 = shape.getAttribute("rx");
-          let r2 = shape.getAttribute("ry");
-          area += new Ellipse(r1, r2).area;
-          break;
-        }
-        default:
-          throw new Error("Type not implemented: " + shape.tagName);
-      }
-    }
+      //get needed argumetns from the attributes of the svg tag
+      let argValues = [];
+      shapeMap[shape.tagName].args.forEach((arg) => {
+        argValues.push(shape.getAttribute(arg));
+      })
+      
+      //create new shape object and add it's area to area variable
+      const shapeObject = new shapeMap[shape.tagName].type(...argValues);
+      area += shapeObject.area;
+     }
     return Math.round(area);
   }
 }
