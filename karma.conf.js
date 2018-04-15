@@ -13,7 +13,7 @@ module.exports = function(config) {
     frameworks: ["mocha", "chai"],
 
     // list of files / patterns to load in the browser
-    files: ["src/**/*.js", "spec/**/*.js"],
+    files: ["src/shape/Shape.js", "src/shape/Ellipse.js","src/**/*.js", "spec/**/*.js"],
 
     // list of files to exclude
     exclude: [],
