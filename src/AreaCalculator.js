@@ -5,9 +5,6 @@ class AreaCalculator {
   // Returns the total area of all shapes rounded to the nearest whole number
   calculateArea(svg) {
     let area = 0;
-
-    
-
     for (let shape of svg.children) {
       switch (shape.tagName) {
         case "circle": {
@@ -24,7 +21,7 @@ class AreaCalculator {
         case "ellipse": {
           let r1 = shape.getAttribute("rx");
           let r2 = shape.getAttribute("ry");
-          area += Math.PI * r1 * r2;
+          area += new Ellipse(r1, r2).area;
           break;
         }
         default:

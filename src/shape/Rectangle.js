@@ -7,6 +7,6 @@ class Rectangle extends Shape {
     }
     
     calcArea() {
-      this.area = this.width * this.height;
+      return this.width * this.height;
     }
 }
